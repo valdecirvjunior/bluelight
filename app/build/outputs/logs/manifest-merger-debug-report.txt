@@ -41,6 +41,12 @@ ADDED from C:\Users\vvj\Desktop\BT4LEDTest\app\src\main\AndroidManifest.xml:27:5
 		ADDED from C:\Users\vvj\Desktop\BT4LEDTest\app\src\main\AndroidManifest.xml:27:64-87
 	android:name
 		ADDED from C:\Users\vvj\Desktop\BT4LEDTest\app\src\main\AndroidManifest.xml:27:19-63
+uses-feature#android.hardware.sensor.accelerometer
+ADDED from C:\Users\vvj\Desktop\BT4LEDTest\app\src\main\AndroidManifest.xml:28:5-98
+	android:required
+		ADDED from C:\Users\vvj\Desktop\BT4LEDTest\app\src\main\AndroidManifest.xml:28:72-95
+	android:name
+		ADDED from C:\Users\vvj\Desktop\BT4LEDTest\app\src\main\AndroidManifest.xml:28:19-71
 uses-permission#android.permission.BLUETOOTH
 ADDED from C:\Users\vvj\Desktop\BT4LEDTest\app\src\main\AndroidManifest.xml:29:5-67
 	android:name
