@@ -1,0 +1,22 @@
+
+<ba-wizard>
+    <ba-wizard-step title="Lista">
+        <div class="col-xlg-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 typography-widget">
+            <div ba-panel ba-panel-class="with-scroll heading-widget" ba-panel-title="Lista">
+                <div include-with-scope="app/pages/questao/questao.list.html"></div>
+            </div>
+        </div>
+    </ba-wizard-step>
+    <ba-wizard-step title="Cadastro">
+        <div class="col-xlg-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 typography-widget" ng-hide="action != 'edit'">
+            <div ba-panel ba-panel-class="with-scroll heading-widget" ba-panel-title="Editar">
+                <div include-with-scope="app/pages/questao/questao.edit.html"></div>
+            </div>
+        </div>
+        <div class="col-xlg-12 col-lg-12  col-md-12 col-sm-12 col-xs-12 typography-widget" ng-hide="action != 'new'">
+            <div ba-panel ba-panel-class="with-scroll heading-widget" ba-panel-title="Inserir">
+                <div include-with-scope="app/pages/questao/questao.new.html"></div>
+            </div>
+        </div>
+    </ba-wizard-step>
+</ba-wizard>

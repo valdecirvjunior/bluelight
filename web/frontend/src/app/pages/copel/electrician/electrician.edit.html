@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6 form-group">
+
+            <label>Documento:</label>
+            <input ng-model="electrician.edit.doc" class="form-control" mask="999.999.999-99" clean="true"/>
+
+            <label style="margin-top: 10px">Nome:</label>
+            <input ng-model="electrician.edit.name" class="form-control" />
+
+        </div>
+        <div class="col-md-6 form-group">
+
+            <label>Telefone:</label>
+            <input ng-model="electrician.edit.phone" class="form-control" mask="+55 (99) 9?9999-9999" placeholder="+55" />
+
+            <button type="button" class="btn btn-success" ng-click="editSave()" style="margin-top: 30px">Salvar</button>
+        </div>
+    </div>
+</div>

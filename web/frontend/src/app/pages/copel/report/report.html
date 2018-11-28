@@ -1,0 +1,193 @@
+<div class="widgets">
+    <div class='col-md-12' style="z-index: 100;">
+        <div ba-panel ba-panel-class="heading-widget" ba-panel-title="Filtro">
+            <div class="col-md-3">
+                <span style="font-weight: bold;">Eletricista:</span>
+                <input type="text" ng-model="filtro.doc" class="form-control" clean="true"  placeholder="Nome ou Documento"/>
+                <!-- ng-change="getResume()" -->
+                <p class="input-group"></p>
+            </div>
+            <div class="col-md-3">
+                <span style="font-weight: bold;">Data Início: </span>
+                <br>
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="obj.dataInicio" is-open="calOptsInicio.opened"
+                        ng-click="openCalendarInicio()" datepicker-options="dateOptions" />
+                    <!-- ng-change="getResume()" -->
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openCalendarInicio()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <span style="font-weight: bold;">Data Fim: </span>
+                <br>
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="obj.dataFim" is-open="calOptsFim.opened"
+                        ng-click="openCalendarFim()" datepicker-options="dateOptions" />
+                    <!-- ng-change="getResume()" -->
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openCalendarFim()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <span></span>
+                <br>
+                <button class="btn btn-info" ng-click="pesquisar()">Pesquisar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class='col-md-12'>
+        <div class="row pie-charts">
+            <!-- ngRepeat: chart in charts -->
+            <div class="pie-chart-item-container ng-scope">
+                <div class="panel animated zoomIn" zoom-in="">
+                    <div class="panel-body">
+                        <div class="pie-chart-item ng-scope">
+                            <div class="chart" rel="rgba(0,0,255,0.3)" data-percent="60">
+                                <span class="percent">{{resume.percentSuccess}}</span>
+                                <canvas height="10" width="10"></canvas>
+                            </div>
+                            <div class="description">
+                                <div class="ng-binding">Transações</div>
+                                <div class="description-stats ng-binding">{{resume.countSuccess}}</div>
+                            </div>
+                            <!-- <i class="chart-icon i-person"></i> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end ngRepeat: chart in charts -->
+            <div class="pie-chart-item-container ng-scope">
+                <div class="panel animated zoomIn" zoom-in="">
+                    <div class="panel-body">
+                        <div class="pie-chart-item ng-scope">
+                            <!-- <div class="chart">
+                                <span class="percent">78</span>
+                                <canvas height="84" width="84"></canvas>
+                            </div> -->
+                            <div class="description">
+                                <div class="ng-binding">Arrecadação</div>
+                                <div class="description-stats ng-binding">{{formatValue(resume.sumSuccess) == "" ? 'R$ 0': formatValue(resume.sumSuccess)}}</div>
+                            </div>
+                            <!-- <i class="chart-icon i-money"></i> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end ngRepeat: chart in charts -->
+            <div class="pie-chart-item-container ng-scope">
+                <div class="panel animated zoomIn" zoom-in="">
+                    <div class="panel-body">
+                        <div class="pie-chart-item ng-scope">
+                            <div class="chart">
+                                <span class="percent">{{resume.percentDebito}}</span>
+                                <canvas height="84" width="0"></canvas>
+                            </div>
+                            <div class="ng-binding">Débito</div>
+                            <div class="description">
+                                <div class="description-stats ng-binding">{{formatValue(resume.sumDebito) == "" ? 'R$ 0': formatValue(resume.sumDebito)}}</div>
+                            </div>
+                            <!-- <i class="chart-icon i-face"></i> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end ngRepeat: chart in charts -->
+            <div class="pie-chart-item-container ng-scope">
+                <div class="panel animated zoomIn" zoom-in="">
+                    <div class="panel-body">
+                        <div class="pie-chart-item ng-scope">
+                            <div class="chart">
+                                <span class="percent">{{resume.percentCredito}}</span>
+                                <canvas height="84" width="0"></canvas>
+                            </div>
+                            <div class="ng-binding">Crédito</div>
+                            <div class="description">
+                                <div class="description-stats ng-binding">{{formatValue(resume.sumCredito) == "" ? 'R$ 0': formatValue(resume.sumCredito)}}</div>
+                            </div>
+                            <!-- <i class="chart-icon i-refresh"></i> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='col-md-12'>
+        <div ba-panel ba-panel-class="with-scroll heading-widget" ba-panel-title="Transações">
+            <a ng-href="{{ fileUrl }}" ng-click="downloadCsv()" download="file.csv" type="button" class="btn btn-default" charset="utf-8"><span class="glyphicon glyphicon-download-alt">&nbsp;</span>Download CSV</a>
+            <!-- <button ng-href="{{ fileUrl }}" ng-click="{{ downloadCsv() }}" download="file.txt" type="button" class="btn btn-default" charset="utf-8"><span class="glyphicon glyphicon-download-alt">&nbsp;</span>Download CSV</button> -->
+            <br><br><br>
+            <div class="horizontal-scroll">
+                <table class="table table-hover" st-table="transactions" st-safe-src="transaction">
+                    <thead>
+                        <tr class="sortable" ng-hide="deviceType == 'mobile'">
+                            <!-- <th class="table-id" st-sort="fundingId" st-sort-default="true">FundingId</th> -->
+                            <th st-sort="date">Data</th>
+                            <th st-sort="value">Valor débito</th>
+                            <th st-sort="valueDebt">Valor total</th>
+                            <!-- <th st-sort="instalments">Parcelas</th> -->
+                            <th st-sort="user">Eletricista</th>
+                            <th st-sort="type">Pagamento</th>
+                            <th st-sort="status">Status</th>
+                            <th st-sort="error">Erro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="editable-row {{alertTable.type}}" ng-hide="alertTable.msg == ''">
+                            <td colspan="{{ deviceType == 'mobile' ? 1 : 9 }}" >
+                                {{alertTable.msg}}
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in transactions" class="editable-row" ng-hide="alertTable.msg != '' || deviceType == 'mobile'">
+                            <!-- <td class="table-id">{{item.fundingId}}</td> -->
+                            <td>{{formatDate(item.date)}}</td>
+                            <td>{{formatValue(item.valueDebt)}}</td>
+                            <td>{{formatValue(item.value)}}</td>
+                            <!-- <td>{{}}</td> -->
+                            <td>{{getElectricianName(item.user)}}</td>
+                            <td>{{formatForm(item.type, item.instalments)}}</td>
+                            <td>{{item.status ? 'Concluído': 'Falha'}}</td>
+                            <td><button class="btn btn-info editable-table-button btn-xs" ng-click="getError(item.error)" ng-hide="item.status">Visualizar</button></td>
+                        </tr>
+
+                        <tr ng-repeat="item in transactions" class="editable-row" ng-hide="alertTable.msg != '' || deviceType != 'mobile'">
+                            <td ba-panel>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <!-- <tr><td><label for="fundingId">Id</label></td><td>{{item.fundingId}}</td></tr> -->
+                                        <tr><td><label for="date">Data</label></td><td>{{item.date}}</td></tr>
+                                        <tr><td><label for="valueDebt">Valor</label></td><td>{{item.valueDebt}}</td></tr>
+                                        <tr><td><label for="user">Eletricista</label></td><td>{{item.user}}</td></tr>
+                                        <tr><td><label for="status">Status</label></td><td>{{item.status ? 'Concluído': 'Falha'}}</td></tr>
+                                        <tr><td><label for="type">Tipo</label></td><td>{{item.type}}</td></tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="10" class="text-center">
+                                <div st-pagination="" st-items-by-page="pageSize" st-displayed-pages="5"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    div.chart {
+        width: 20% !important;
+    }
+</style>

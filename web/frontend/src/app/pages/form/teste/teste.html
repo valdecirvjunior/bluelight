@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-1">
+        <label>Exibir:</label>
+        <select class="form-control .col-md-1" title="" ng-model="pageSize" ng-options="i for i in [5,10,15,20,25]">
+        </select>
+        <p class="input-group"></p>
+    </div>
+    <div class="col-md-2">
+        <label>Número:</label>
+        <input class="form-control .col-md-2" ng-model="filtro.numero" ng-change="draw()"/>
+    </div>
+    <br>
+    <div class="col" align="right" style="margin-right: 15px">
+        <button class="btn btn-info" ng-click="inserir()">Nova Maquininha</button>
+    </div>
+</div>
+<br>
+<div class="horizontal-scroll">
+    <table class="table table-hover" st-table="machines" st-safe-src="machine">
+        <thead>
+            <tr class="sortable">
+                <th width="50%" class="table-id" st-sort="id" st-sort-default="true">Número</th>
+                <th width="50%" st-sort="label">Label</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in machines" class="editable-row" ng-click="selectMachine(item.number)">
+                <td class="table-id">{{item.caminho}}</td>
+                <td>{{item.descricao}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10" class="text-center">
+                    <div st-pagination="" st-items-by-page="pageSize" st-displayed-pages="5"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
