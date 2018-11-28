@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.UUID;
 
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 /**
  * For a given BLE device, this Activity provides the user interface to connect, display data,
@@ -51,8 +52,16 @@ public class DeviceControlActivity extends Activity {
     private final static String TAG = DeviceControlActivity.class.getSimpleName();
 
     private SensorManager mSensorManager;
+    private SensorManager mSensorManager2;
     private Sensor mAccelerometer;
+    private Sensor mOrientation;
     private ShakeDetector mShakeDetector;
+    private ShakeDetector mShakeDetector2;
+
+
+    private String degreeX;
+    private String degreeY;
+    private String degreeZ;
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
@@ -158,9 +167,13 @@ public class DeviceControlActivity extends Activity {
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        mSensorManager2 = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mOrientation = mSensorManager2.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+
         mShakeDetector = new ShakeDetector();
+
         mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
 
             @Override
@@ -169,8 +182,25 @@ public class DeviceControlActivity extends Activity {
                  * The following method, "handleShakeEvent(count):" is a stub //
                  * method you would use to setup whatever you want done once the
                  * device has been shook.
+                 *
                  */
-                makeChange();
+                //mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+                //mShakeDetector2.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+                 //   @Override
+                 //   public void onShake(int count) {
+
+                 //   }
+                //});
+                degreeX = ShakeDetector.strDegreeX;
+                degreeY = ShakeDetector.strDegreeY;
+                degreeZ = ShakeDetector.strDegreeZ;
+
+
+                //Toast.makeText(mBluetoothLeService, "XX "+degreeXX+" YY "+degreeYY+ " ZZ "+degreeZZ , Toast.LENGTH_SHORT).show();
+                //String degreeX = mShakeDetector.strDegreeX;
+                //String degreeY = mShakeDetector.strDegreeX;
+                //String degreeZ = mShakeDetector.strDegreeX;
+                makeChange(degreeX, degreeY, degreeZ);
                 //handleShakeEvent(count);
             }
         });
@@ -186,6 +216,8 @@ public class DeviceControlActivity extends Activity {
         }
 
         mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+        mSensorManager2.registerListener(mShakeDetector, mOrientation, SensorManager.SENSOR_DELAY_UI);
+        //mSensorManager.registerListener(mCompassDetector, mOrientation,	SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -307,9 +339,10 @@ public class DeviceControlActivity extends Activity {
         });
     }
     // on change of bars write char 
-    private void makeChange() {
-    	 String str = RGBFrame[0] + "," + RGBFrame[1] + "," + RGBFrame[2] + "\n";
-         Log.d(TAG, "Sending result=" + str);
+    private void makeChange(String degreeX, String degreeY, String degreeZ) {
+    	 String str = RGBFrame[0] + "," + RGBFrame[1] + "," + RGBFrame[2] + "," + degreeX + "," + degreeY + "," + degreeZ + "\n";
+        Toast.makeText(mBluetoothLeService, "x "+degreeX+" y "+degreeY+ " z "+degreeZ, Toast.LENGTH_SHORT).show();
+    	 Log.d(TAG, "Sending result=" + str);
 		 final byte[] tx = str.getBytes();
 		 if(mConnected) {
 		    characteristicTX.setValue(tx);
